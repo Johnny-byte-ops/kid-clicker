@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kid Clicker</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+font-family:'Inter',sans-serif;
+background:#1b1208;
+color:white;
+overflow:hidden;
+
+user-select:none;
+-webkit-user-select:none;
+-webkit-touch-callout:none;
+}
+
+.container{
+display:flex;
+height:100vh;
+}
+
+/* LEFT */
+
+.left{
+width:33%;
+background:
+linear-gradient(to bottom,#3b2613,#1d130b);
+
+border-right:5px solid #000;
+
+padding:20px;
+
+text-align:center;
+
+position:relative;
+}
+
+.logo{
+font-size:52px;
+font-weight:800;
+margin-bottom:20px;
+text-shadow:0 0 10px rgba(255,255,255,0.2);
+}
+
+.bigStat{
+font-size:42px;
+font-weight:800;
+margin-top:10px;
+}
+
+.smallStat{
+opacity:0.75;
+margin-top:8px;
+font-size:15px;
+}
+
+.money{
+color:#facc15;
+font-weight:700;
+}
+
+/* CLICK ZONE */
+
+.clickZone{
+width:330px;
+height:330px;
+margin:30px auto;
+
+border-radius:50%;
+
+background:
+radial-gradient(circle at top,#334155,#111827);
+
+border:6px solid rgba(255,255,255,0.08);
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+cursor:pointer;
+
+transition:0.08s;
+
+box-shadow:
+0 0 40px rgba(0,0,0,0.6),
+inset 0 0 30px rgba(255,255,255,0.04);
+}
+
+.clickZone:hover{
+transform:scale(1.02);
+}
+
+.clickZone:active{
+transform:scale(0.96);
+}
+
+#kid{
+width:240px;
+pointer-events:none;
+
+user-select:none;
+-webkit-user-select:none;
+-webkit-user-drag:none;
+}
+
+/* CENTER */
+
+.middle{
+width:34%;
+background:#26180d;
+
+border-right:5px solid #000;
+
+padding:18px;
+overflow-y:auto;
+}
+
+.middle h2{
+font-size:38px;
+margin-bottom:20px;
+text-align:center;
+}
+
+.news{
+background:#111;
+padding:12px;
+border-radius:12px;
+margin-bottom:18px;
+text-align:center;
+font-weight:700;
+color:#facc15;
+}
+
+.shopGrid{
+display:flex;
+flex-direction:column;
+gap:14px;
+}
+
+.upgrade{
+background:#3b2613;
+
+border:3px solid rgba(255,255,255,0.08);
+
+padding:18px;
+
+border-radius:18px;
+
+transition:0.15s;
+}
+
+.upgrade:hover{
+transform:translateY(-3px);
+background:#51351d;
+}
+
+.locked{
+opacity:0.25;
+filter:grayscale(1);
+}
+
+.cardTop{
+display:flex;
+gap:14px;
+align-items:center;
+margin-bottom:10px;
+}
+
+.icon{
+width:58px;
+height:58px;
+
+border-radius:14px;
+
+background:#111827;
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+font-size:28px;
+}
+
+.upgrade h3{
+font-size:26px;
+}
+
+.desc{
+opacity:0.7;
+font-size:14px;
+}
+
+.cost{
+margin-top:12px;
+font-weight:700;
+color:#93c5fd;
+}
+
+.actions{
+display:flex;
+gap:10px;
+margin-top:14px;
+}
+
+button{
+flex:1;
+
+padding:12px;
+
+border:none;
+
+border-radius:12px;
+
+font-weight:700;
+
+cursor:pointer;
+
+transition:0.15s;
+}
+
+.buyBtn{
+background:#2563eb;
+color:white;
+}
+
+.buyBtn:hover{
+background:#3b82f6;
+}
+
+/* RIGHT */
+
+.right{
+width:33%;
+background:#140d07;
+padding:18px;
+overflow-y:auto;
+}
+
+.right h2{
+font-size:38px;
+margin-bottom:18px;
+text-align:center;
+}
+
+.panelCard{
+background:#25170c;
+
+border:3px solid rgba(255,255,255,0.06);
+
+padding:18px;
+
+border-radius:18px;
+
+margin-bottom:16px;
+}
+
+.panelCard h3{
+margin-bottom:14px;
+font-size:26px;
+}
+
+.miniCard{
+background:#111827;
+
+padding:14px;
+
+border-radius:14px;
+
+margin-bottom:12px;
+}
+
+.miniBtn{
+width:100%;
+margin-top:10px;
+background:#7c3aed;
+color:white;
+}
+
+.sellBtn{
+width:100%;
+margin-top:10px;
+background:#16a34a;
+color:white;
+}
+
+input{
+width:100%;
+padding:12px;
+margin-top:10px;
+
+border:none;
+
+border-radius:12px;
+
+background:#0f172a;
+color:white;
+}
+
+/* FLOAT TEXT */
+
+.floatText{
+position:absolute;
+font-size:28px;
+font-weight:800;
+color:#93c5fd;
+pointer-events:none;
+animation:floatUp 1s forwards;
+}
+
+@keyframes floatUp{
+
+0%{
+transform:translateY(0);
+opacity:1;
+}
+
+100%{
+transform:translateY(-100px);
+opacity:0;
+}
+
+}
+
+/* KID EVOLUTIONS */
+
+.kidWhite{
+filter:brightness(1.15);
+}
+
+.kidAsian{
+filter:sepia(0.45) saturate(1.5) hue-rotate(-10deg);
+}
+
+.kidBrown{
+filter:sepia(0.9) saturate(1.8) brightness(0.82);
+}
+
+.kidIndian{
+filter:sepia(0.75) saturate(1.5) brightness(0.92) hue-rotate(-15deg);
+}
+
+.hidden{
+display:none;
+}
+
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<!-- LEFT -->
+
+<div class="left">
+
+<div class="logo">
+👶 Kid Clicker
+</div>
+
+<div class="bigStat" id="kidCount">
+0 Kids
+</div>
+
+<div class="smallStat" id="kps">
+0 KPS
+</div>
+
+<div class="smallStat" id="clickPowerText">
+Click Power: 1
+</div>
+
+<div class="smallStat money" id="moneyText">
+💰 Money: 0
+</div>
+
+<div class="clickZone" id="clickZone">
+
+<img
+id="kid"
+class="kidWhite"
+src="https://cdn-icons-png.flaticon.com/512/706/706830.png"
+draggable="false"
+>
+
+</div>
+
+</div>
+
+<!-- MIDDLE -->
+
+<div class="middle">
+
+<h2>🛒 Shop</h2>
+
+<div class="news">
+Kid Clicker News: Massive empire growing...
+</div>
+
+<div class="shopGrid">
+
+<div class="upgrade locked" id="expertBox">
+<div class="cardTop">
+<div class="icon">🧠</div>
+<div>
+<h3>Expert</h3>
+<div class="desc">Increase click power</div>
+</div>
+</div>
+
+<div class="cost">
+Cost:
+<span id="expertCost">25</span>
+</div>
+
+<div class="actions">
+<button class="buyBtn" onclick="buyExpert()">
+Buy
+</button>
+</div>
+</div>
+
+<div class="upgrade locked" id="diddyBox">
+<div class="cardTop">
+<div class="icon">🎤</div>
+<div>
+<h3>Diddy</h3>
+<div class="desc">Unlock Diddy upgrades</div>
+</div>
+</div>
+
+<div class="cost">
+Cost:
+<span id="diddyCost">50</span>
+</div>
+
+<div class="actions">
+<button class="buyBtn" onclick="buyDiddy()">
+Buy
+</button>
+</div>
+</div>
+
+<div class="upgrade locked" id="clubBox">
+<div class="cardTop">
+<div class="icon">🎧</div>
+<div>
+<h3>Clubroom</h3>
+<div class="desc">Massive click boost</div>
+</div>
+</div>
+
+<div class="cost">
+Cost:
+<span id="clubCost">100</span>
+</div>
+
+<div class="actions">
+<button class="buyBtn" onclick="buyClub()">
+Buy
+</button>
+</div>
+</div>
+
+<div class="upgrade locked" id="factoryBox">
+<div class="cardTop">
+<div class="icon">🏭</div>
+<div>
+<h3>Factory</h3>
+<div class="desc">+5 KPS</div>
+</div>
+</div>
+
+<div class="cost">
+Cost:
+<span id="factoryCost">250</span>
+</div>
+
+<div class="actions">
+<button class="buyBtn" onclick="buyFactory()">
+Buy
+</button>
+</div>
+</div>
+
+<div class="upgrade locked" id="basementBox">
+<div class="cardTop">
+<div class="icon">🏚</div>
+<div>
+<h3>Basement</h3>
+<div class="desc">+20 KPS</div>
+</div>
+</div>
+
+<div class="cost">
+Cost:
+<span id="basementCost">1000</span>
+</div>
+
+<div class="actions">
+<button class="buyBtn" onclick="buyBasement()">
+Buy
+</button>
+</div>
+</div>
+
+<div class="upgrade locked" id="importsBox">
+<div class="cardTop">
+<div class="icon">📦</div>
+<div>
+<h3>Imports</h3>
+<div class="desc">Unlock market</div>
+</div>
+</div>
+
+<div class="cost">
+Cost:
+<span id="importsCost">5000</span>
+</div>
+
+<div class="actions">
+<button class="buyBtn" onclick="buyImports()">
+Unlock
+</button>
+</div>
+</div>
+
+</div>
+
+</div>
+
+<!-- RIGHT -->
+
+<div class="right">
+
+<h2>🎮 Minigames</h2>
+
+<!-- DIDDY -->
+
+<div class="panelCard hidden" id="diddyMini">
+
+<h3>🎤 Diddy Upgrades</h3>
+
+<div class="miniCard">
+🍼 Baby Oil (+10% Click)
+
+<button class="miniBtn" onclick="buyBabyOil()">
+Buy (<span id="babyOilCost">100</span>)
+</button>
+</div>
+
+<div class="miniCard">
+🛏 Mattress (+10% KPS)
+
+<button class="miniBtn" onclick="buyMattress()">
+Buy (<span id="mattressCost">150</span>)
+</button>
+</div>
+
+<div class="miniCard">
+🧑‍💼 Assistant (+15% Both)
+
+<button class="miniBtn" onclick="buyAssistant()">
+Buy (<span id="assistantCost">500</span>)
+</button>
+</div>
+
+</div>
+
+<!-- MARKET -->
+
+<div class="panelCard hidden" id="marketMini">
+
+<h3>📦 Import / Export</h3>
+
+<div class="miniCard">
+
+Sell Kids → Money
+
+<input
+type="number"
+id="sellAmount"
+value="10"
+min="1"
+>
+
+<button class="sellBtn" onclick="sellKids()">
+Sell
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+let kids = 0;
+let clickPower = 1;
+let kps = 0;
+let money = 0;
+
+let clickMult = 1;
+let kpsMult = 1;
+let sellMult = 1;
+
+let expertCost = 25;
+let diddyCost = 50;
+let clubCost = 100;
+let factoryCost = 250;
+let basementCost = 1000;
+let importsCost = 5000;
+
+let babyOilCost = 100;
+let mattressCost = 150;
+let assistantCost = 500;
+
+const clickZone =
+document.getElementById("clickZone");
+
+clickZone.onclick = (e)=>{
+
+kids += clickPower * clickMult;
+
+const float =
+document.createElement("div");
+
+float.className = "floatText";
+
+float.innerText =
+"+" + Math.floor(clickPower * clickMult);
+
+float.style.left =
+e.pageX + "px";
+
+float.style.top =
+e.pageY + "px";
+
+document.body.appendChild(float);
+
+setTimeout(()=>{
+float.remove();
+},1000);
+
+update();
+
+}
+
+function buyExpert(){
+
+if(kids >= expertCost){
+
+kids -= expertCost;
+clickPower += 1;
+
+expertCost =
+Math.floor(expertCost * 1.5);
+
+update();
+
+}
+
+}
+
+function buyDiddy(){
+
+if(kids >= diddyCost){
+
+kids -= diddyCost;
+kps += 1;
+
+diddyCost =
+Math.floor(diddyCost * 1.6);
+
+document.getElementById("diddyMini")
+.classList.remove("hidden");
+
+update();
+
+}
+
+}
+
+function buyClub(){
+
+if(kids >= clubCost){
+
+kids -= clubCost;
+
+clickPower += 5;
+
+clubCost =
+Math.floor(clubCost * 1.7);
+
+update();
+
+}
+
+}
+
+function buyFactory(){
+
+if(kids >= factoryCost){
+
+kids -= factoryCost;
+
+kps += 5;
+
+factoryCost =
+Math.floor(factoryCost * 1.8);
+
+update();
+
+}
+
+}
+
+function buyBasement(){
+
+if(kids >= basementCost){
+
+kids -= basementCost;
+
+kps += 20;
+
+basementCost =
+Math.floor(basementCost * 2);
+
+update();
+
+}
+
+}
+
+function buyImports(){
+
+if(kids >= importsCost){
+
+kids -= importsCost;
+
+kps += 50;
+
+importsCost =
+Math.floor(importsCost * 2.5);
+
+document.getElementById("marketMini")
+.classList.remove("hidden");
+
+update();
+
+}
+
+}
+
+function buyBabyOil(){
+
+if(kids >= babyOilCost){
+
+kids -= babyOilCost;
+
+clickMult *= 1.1;
+
+babyOilCost =
+Math.floor(babyOilCost * 1.6);
+
+update();
+
+}
+
+}
+
+function buyMattress(){
+
+if(kids >= mattressCost){
+
+kids -= mattressCost;
+
+kpsMult *= 1.1;
+
+mattressCost =
+Math.floor(mattressCost * 1.6);
+
+update();
+
+}
+
+}
+
+function buyAssistant(){
+
+if(kids >= assistantCost){
+
+kids -= assistantCost;
+
+clickMult *= 1.15;
+kpsMult *= 1.15;
+
+assistantCost =
+Math.floor(assistantCost * 2);
+
+update();
+
+}
+
+}
+
+function sellKids(){
+
+const amt =
+parseInt(document.getElementById("sellAmount").value);
+
+if(kids >= amt){
+
+kids -= amt;
+
+money += Math.floor(amt * sellMult);
+
+update();
+
+}
+
+}
+
+function shade(id,cost){
+
+const el =
+document.getElementById(id);
+
+if(kids >= cost){
+
+el.classList.remove("locked");
+
+}else{
+
+el.classList.add("locked");
+
+}
+
+}
+
+function update(){
+
+document.getElementById("kidCount")
+.innerText =
+Math.floor(kids).toLocaleString()
++ " Kids";
+
+document.getElementById("kps")
+.innerText =
+(kps * kpsMult).toFixed(1)
++ " KPS";
+
+document.getElementById("clickPowerText")
+.innerText =
+"Click Power: "
++ (clickPower * clickMult).toFixed(1);
+
+document.getElementById("moneyText")
+.innerText =
+"💰 Money: "
++ Math.floor(money).toLocaleString();
+
+document.getElementById("expertCost")
+.innerText = expertCost;
+
+document.getElementById("diddyCost")
+.innerText = diddyCost;
+
+document.getElementById("clubCost")
+.innerText = clubCost;
+
+document.getElementById("factoryCost")
+.innerText = factoryCost;
+
+document.getElementById("basementCost")
+.innerText = basementCost;
+
+document.getElementById("importsCost")
+.innerText = importsCost;
+
+document.getElementById("babyOilCost")
+.innerText = babyOilCost;
+
+document.getElementById("mattressCost")
+.innerText = mattressCost;
+
+document.getElementById("assistantCost")
+.innerText = assistantCost;
+
+shade("expertBox",expertCost);
+shade("diddyBox",diddyCost);
+shade("clubBox",clubCost);
+shade("factoryBox",factoryCost);
+shade("basementBox",basementCost);
+shade("importsBox",importsCost);
+
+const kidImg =
+document.getElementById("kid");
+
+if(money >= 50000000){
+
+kidImg.className =
+"kidIndian";
+
+}else if(money >= 15000000){
+
+kidImg.className =
+"kidBrown";
+
+}else if(money >= 5000000){
+
+kidImg.className =
+"kidAsian";
+
+}else{
+
+kidImg.className =
+"kidWhite";
+
+}
+
+}
+
+setInterval(()=>{
+
+kids +=
+(kps * kpsMult) / 10;
+
+update();
+
+},100);
+
+update();
+
+</script>
+
+</body>
+</html>
